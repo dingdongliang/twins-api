@@ -8,15 +8,16 @@
     </delete>
 
     <insert id="insert" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO user_info (USER_ID, USER_NAME, USER_BIRTH)
-        VALUES (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userBirth,jdbcType=DATE})
+        INSERT INTO user_info (USER_NAME, USER_BIRTH, USER_IMG)
+        VALUES (#{userName,jdbcType=VARCHAR}, #{userBirth,jdbcType=DATE},#{userImg,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectAllUserInfo" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
             USER_ID,
             USER_NAME,
-            USER_BIRTH
+            USER_BIRTH,
+            USER_IMG
         FROM user_info
     </select>
 
@@ -25,7 +26,8 @@
         SELECT
             USER_ID,
             USER_NAME,
-            USER_BIRTH
+            USER_BIRTH,
+            USER_IMG
         FROM user_info
         WHERE USER_ID = #{userId,jdbcType=INTEGER}
     </select>
@@ -33,7 +35,8 @@
     <update id="updateByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE user_info
         SET USER_NAME  = #{userName,jdbcType=VARCHAR},
-            USER_BIRTH = #{userBirth,jdbcType=DATE}
+            USER_BIRTH = #{userBirth,jdbcType=DATE},
+            USER_IMG  = #{userImg,jdbcType=VARCHAR}
         WHERE USER_ID = #{userId,jdbcType=INTEGER}
     </update>
 </mapper>
