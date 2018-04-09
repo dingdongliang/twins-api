@@ -1,0 +1,94 @@
+public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALATbCzQh3MfyAKnmZ7+a9VljZA7XtdAluwsJAqcZXMTEtmaW0MLLG1Be6MhND8GgHUyWBeE3D6be7DevLU4Zf8CAwEAAQ==
+password: IKEl8e/vWllZ0AF/yQDq+s+Fw0mNryIAM4NmKVPOA6Hc4mItxWkXwmuoYSlveowhy4rHiYDjWjXDCm0gwl76+A==
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss}] %-5level %logger{36} - %msg%n"
+
+spring:
+  datasource:
+    druid:
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3306/example?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: root
+        password: ${password}
+        driver-class-name: com.mysql.jdbc.Driver
+        initial-size: 5
+        min-idle: 5
+        max-active: 20
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        filters: mergeStat,wall,config,slf4j
+        connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.slowSqlMillis=5000
+        use-global-gata-source-stat: true
+      names: slaveA
+      slaveA:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3306/origin?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: root
+        password: ${password}
+        driver-class-name: com.mysql.jdbc.Driver
+        initial-size: 5
+        min-idle: 5
+        max-active: 20
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        filters: mergeStat,wall,config,slf4j
+        connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.slowSqlMillis=5000
+        use-global-gata-source-stat: true
+
+  data:
+    elasticsearch:
+      cluster-nodes: 10.3.254.53:9300;10.3.254.54:9300;10.3.254.55:9300
+      local: false
+      properties:
+        transport:
+          tcp:
+            connect_timeout: 60s
+    mongodb:
+      master:
+        host:
+          - 10.3.50.221
+          - 10.3.50.221
+          - 10.3.50.221
+        port: 27221
+        database: slave
+        username: bigdata
+        password: bigdata&2018
+      slave:
+        host: 10.3.50.221
+        port: 27221
+        database: slave
+        username: bigdata
+        password: bigdata&2018
+  redis:
+    host: localhost
+    port: 6379
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+mybatis:
+  mapperLocations: classpath:/mapper/*.xml
+  type-aliases-package: com.dyenigma.twinsapi.entity
+
+swagger:
+  enable: true

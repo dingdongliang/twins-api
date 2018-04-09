@@ -2,55 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dyenigma.twinsapi.dao.LibBookStatusMapper">
 
-    <sql id="Base_Column_List">
-        STATUS_ID, STATUS_NAME
-    </sql>
-    <select id="selectByPrimaryKey" resultType="com.alibaba.fastjson.JSONObject"
-            parameterType="com.alibaba.fastjson.JSONObject">
-        select
-        <include refid="Base_Column_List"/>
-        from lib_book_status
-        where STATUS_ID = #{statusId,jdbcType=VARCHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
-        delete from lib_book_status
-        where STATUS_ID = #{statusId,jdbcType=VARCHAR}
-    </delete>
-    <insert id="insert" parameterType="com.alibaba.fastjson.JSONObject">
-        insert into lib_book_status (STATUS_ID, STATUS_NAME)
-        values (#{statusId,jdbcType=VARCHAR}, #{statusName,jdbcType=VARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="com.alibaba.fastjson.JSONObject">
-        insert into lib_book_status
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="statusId != null">
-                STATUS_ID,
-            </if>
-            <if test="statusName != null">
-                STATUS_NAME,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="statusId != null">
-                #{statusId,jdbcType=VARCHAR},
-            </if>
-            <if test="statusName != null">
-                #{statusName,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.alibaba.fastjson.JSONObject">
-        update lib_book_status
-        <set>
-            <if test="statusName != null">
-                STATUS_NAME = #{statusName,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where STATUS_ID = #{statusId,jdbcType=VARCHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
-        update lib_book_status
-        set STATUS_NAME = #{statusName,jdbcType=VARCHAR}
-        where STATUS_ID = #{statusId,jdbcType=VARCHAR}
-    </update>
+
 </mapper>

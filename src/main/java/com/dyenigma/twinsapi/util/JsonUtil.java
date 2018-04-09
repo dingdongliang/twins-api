@@ -1,10 +1,12 @@
 package com.dyenigma.twinsapi.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dyenigma.twinsapi.core.RespCodeEnum;
+import com.dyenigma.twinsapi.core.SystemConstant;
 import com.dyenigma.twinsapi.exception.JsonException;
 
-import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * twins/com.dyenigma.twinsapi.util
@@ -35,8 +37,8 @@ public class JsonUtil {
      */
     public static JSONObject successJson(Object returnData) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("returnCode", Constants.SUCCESS_CODE);
-        resultJson.put("returnMsg", Constants.SUCCESS_MSG);
+        resultJson.put("returnCode", SystemConstant.SUCCESS_CODE);
+        resultJson.put("returnMsg", SystemConstant.SUCCESS_MSG);
         resultJson.put("returnData", returnData);
         return resultJson;
     }
@@ -103,7 +105,7 @@ public class JsonUtil {
             }
             if (!StringTools.isNullOrEmpty(missCol)) {
                 jsonObject.clear();
-                jsonObject.put("returnCode", ErrorEnum.ERR_1001.getErrorCode());
+                jsonObject.put("returnCode", RespCodeEnum.NOT_ENOUGH_PARAMS.getCode());
                 jsonObject.put("returnMsg", "缺少必填参数:" + missCol.trim());
                 jsonObject.put("returnData", new JSONObject());
                 throw new JsonException(jsonObject);
@@ -112,16 +114,16 @@ public class JsonUtil {
     }
 
     /**
-     * @param errorEnum 错误码的errorEnum
+     * @param respCodeEnum 错误码的errorEnum
      * @return com.alibaba.fastjson.JSONObject
      * @Description : 返回错误信息JSON
      * @author dingdongliang
      * @date 2018/3/11 19:30
      */
-    public static JSONObject errorJson(ErrorEnum errorEnum) {
+    public static JSONObject errorJson(RespCodeEnum respCodeEnum) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("returnCode", errorEnum.getErrorCode());
-        resultJson.put("returnMsg", errorEnum.getErrorMsg());
+        resultJson.put("returnCode", respCodeEnum.getCode());
+        resultJson.put("returnMsg", respCodeEnum.getDesc());
         resultJson.put("returnData", new JSONObject());
         return resultJson;
     }

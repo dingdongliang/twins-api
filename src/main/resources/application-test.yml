@@ -1,0 +1,34 @@
+logging:
+  level:
+    root: debug
+
+spring:
+  data:
+    mongodb:
+      master:
+        host:
+          - 10.3.50.221
+          - 10.3.50.221
+          - 10.3.50.221
+        port: 27221
+        database: slave
+        username: bigdata
+        password: bigdata&2018
+      slave:
+        host: 10.3.50.221
+        port: 27221
+        database: slave
+        username: bigdata
+        password: bigdata&2018
+  redis:
+    cluster:
+      nodes:
+        - 10.3.254.55:6379
+        - 10.3.254.55:6380
+        - 10.3.254.55:6381
+        - 10.3.254.54:6382
+        - 10.3.254.54:6383
+        - 10.3.254.54:6384
+
+swagger:
+  enable: true

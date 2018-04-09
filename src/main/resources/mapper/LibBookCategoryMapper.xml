@@ -2,55 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dyenigma.twinsapi.dao.LibBookCategoryMapper">
 
-    <sql id="Base_Column_List">
-        CATEGORY_ID, CATEGORY_NAME
-    </sql>
-    <select id="selectByPrimaryKey" resultType="com.alibaba.fastjson.JSONObject"
-            parameterType="com.alibaba.fastjson.JSONObject">
-        select
-        <include refid="Base_Column_List"/>
-        from lib_book_category
-        where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
-        delete from lib_book_category
-        where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-    </delete>
-    <insert id="insert" parameterType="com.alibaba.fastjson.JSONObject">
-        insert into lib_book_category (CATEGORY_ID, CATEGORY_NAME)
-        values (#{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="com.alibaba.fastjson.JSONObject">
-        insert into lib_book_category
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null">
-                CATEGORY_ID,
-            </if>
-            <if test="categoryName != null">
-                CATEGORY_NAME,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null">
-                #{categoryId,jdbcType=VARCHAR},
-            </if>
-            <if test="categoryName != null">
-                #{categoryName,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.alibaba.fastjson.JSONObject">
-        update lib_book_category
-        <set>
-            <if test="categoryName != null">
-                CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
-        update lib_book_category
-        set CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR}
-        where CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
-    </update>
+
 </mapper>
