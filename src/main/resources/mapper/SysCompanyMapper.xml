@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dyenigma.twinsapi.dao.SysCompanyMapper">
+
+    <sql id="Base_Column_List">
+        CO_ID, CO_NAME, CO_PHONE, CO_ADR, CO_ZIP, SORT, CO_EMAIL, CONTACT, STATUS, MANAGER,
+        CO_DESC, CREATER, MODIFYER, CREATED, LASTMOD
+    </sql>
+    <select id="selectByPrimaryKey" resultType="com.alibaba.fastjson.JSONObject"
+            parameterType="com.alibaba.fastjson.JSONObject">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_company
+        where CO_ID = #{coId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from sys_company
+        where CO_ID = #{coId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.alibaba.fastjson.JSONObject">
+        insert into sys_company (CO_ID, CO_NAME, CO_PHONE,
+        CO_ADR, CO_ZIP, SORT,
+        CO_EMAIL, CONTACT, STATUS,
+        MANAGER, CO_DESC, CREATER,
+        MODIFYER, CREATED, LASTMOD
+        )
+        values (#{coId,jdbcType=VARCHAR}, #{coName,jdbcType=VARCHAR}, #{coPhone,jdbcType=VARCHAR},
+        #{coAdr,jdbcType=VARCHAR}, #{coZip,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
+        #{coEmail,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+        #{manager,jdbcType=VARCHAR}, #{coDesc,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR},
+        #{modifyer,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{lastmod,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.alibaba.fastjson.JSONObject">
+        insert into sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coId != null">
+                CO_ID,
+            </if>
+            <if test="coName != null">
+                CO_NAME,
+            </if>
+            <if test="coPhone != null">
+                CO_PHONE,
+            </if>
+            <if test="coAdr != null">
+                CO_ADR,
+            </if>
+            <if test="coZip != null">
+                CO_ZIP,
+            </if>
+            <if test="sort != null">
+                SORT,
+            </if>
+            <if test="coEmail != null">
+                CO_EMAIL,
+            </if>
+            <if test="contact != null">
+                CONTACT,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="manager != null">
+                MANAGER,
+            </if>
+            <if test="coDesc != null">
+                CO_DESC,
+            </if>
+            <if test="creater != null">
+                CREATER,
+            </if>
+            <if test="modifyer != null">
+                MODIFYER,
+            </if>
+            <if test="created != null">
+                CREATED,
+            </if>
+            <if test="lastmod != null">
+                LASTMOD,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coId != null">
+                #{coId,jdbcType=VARCHAR},
+            </if>
+            <if test="coName != null">
+                #{coName,jdbcType=VARCHAR},
+            </if>
+            <if test="coPhone != null">
+                #{coPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="coAdr != null">
+                #{coAdr,jdbcType=VARCHAR},
+            </if>
+            <if test="coZip != null">
+                #{coZip,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="coEmail != null">
+                #{coEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="manager != null">
+                #{manager,jdbcType=VARCHAR},
+            </if>
+            <if test="coDesc != null">
+                #{coDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null">
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyer != null">
+                #{modifyer,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastmod != null">
+                #{lastmod,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alibaba.fastjson.JSONObject">
+        update sys_company
+        <set>
+            <if test="coName != null">
+                CO_NAME = #{coName,jdbcType=VARCHAR},
+            </if>
+            <if test="coPhone != null">
+                CO_PHONE = #{coPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="coAdr != null">
+                CO_ADR = #{coAdr,jdbcType=VARCHAR},
+            </if>
+            <if test="coZip != null">
+                CO_ZIP = #{coZip,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="coEmail != null">
+                CO_EMAIL = #{coEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                CONTACT = #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=CHAR},
+            </if>
+            <if test="manager != null">
+                MANAGER = #{manager,jdbcType=VARCHAR},
+            </if>
+            <if test="coDesc != null">
+                CO_DESC = #{coDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null">
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyer != null">
+                MODIFYER = #{modifyer,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                CREATED = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastmod != null">
+                LASTMOD = #{lastmod,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where CO_ID = #{coId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alibaba.fastjson.JSONObject">
+        update sys_company
+        set CO_NAME = #{coName,jdbcType=VARCHAR},
+        CO_PHONE = #{coPhone,jdbcType=VARCHAR},
+        CO_ADR = #{coAdr,jdbcType=VARCHAR},
+        CO_ZIP = #{coZip,jdbcType=VARCHAR},
+        SORT = #{sort,jdbcType=INTEGER},
+        CO_EMAIL = #{coEmail,jdbcType=VARCHAR},
+        CONTACT = #{contact,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=CHAR},
+        MANAGER = #{manager,jdbcType=VARCHAR},
+        CO_DESC = #{coDesc,jdbcType=VARCHAR},
+        CREATER = #{creater,jdbcType=VARCHAR},
+        MODIFYER = #{modifyer,jdbcType=VARCHAR},
+        CREATED = #{created,jdbcType=TIMESTAMP},
+        LASTMOD = #{lastmod,jdbcType=TIMESTAMP}
+        where CO_ID = #{coId,jdbcType=VARCHAR}
+    </update>
+</mapper>
