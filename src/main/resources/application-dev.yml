@@ -11,8 +11,7 @@ spring:
   datasource:
     druid:
       master:
-        type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://localhost:3306/example?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/example?useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: ${password}
         driver-class-name: com.mysql.jdbc.Driver
@@ -23,6 +22,7 @@ spring:
         time-between-eviction-runs-millis: 60000
         min-evictable-idle-time-millis: 300000
         validation-query: SELECT 'x'
+        validation-query-timeout: 3
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
@@ -30,11 +30,25 @@ spring:
         max-pool-prepared-statement-per-connection-size: 20
         filters: mergeStat,wall,config,slf4j
         connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.slowSqlMillis=5000
-        use-global-gata-source-stat: true
-      names: slaveA
-      slaveA:
-        type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://localhost:3306/origin?characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+
+        web-stat-filter:
+          enabled: true
+          url-pattern: /*
+          exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+          session-stat-enable: true
+          session-stat-max-count: 1000
+          profile-enable: true
+
+        stat-view-servlet:
+          enabled: true
+          url-pattern: /druid/*
+          reset-enable: false
+          login-username: admin
+          login-password: admin
+          allow: 127.0.0.1
+          deny: 128.242.127.4
+      slave:
+        url: jdbc:mysql://localhost:3306/example?useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: ${password}
         driver-class-name: com.mysql.jdbc.Driver
@@ -45,6 +59,7 @@ spring:
         time-between-eviction-runs-millis: 60000
         min-evictable-idle-time-millis: 300000
         validation-query: SELECT 'x'
+        validation-query-timeout: 3
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
@@ -52,7 +67,24 @@ spring:
         max-pool-prepared-statement-per-connection-size: 20
         filters: mergeStat,wall,config,slf4j
         connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.slowSqlMillis=5000
-        use-global-gata-source-stat: true
+
+        web-stat-filter:
+          enabled: true
+          url-pattern: /*
+          exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+          session-stat-enable: true
+          session-stat-max-count: 1000
+          profile-enable: true
+
+        stat-view-servlet:
+          enabled: true
+          url-pattern: /druid/*
+          reset-enable: false
+          login-username: admin
+          login-password: admin
+          allow: 127.0.0.1
+          deny: 128.242.127.4
+      aop-patterns: com.dyenigma.twinsapi.service.*
 
   data:
     elasticsearch:

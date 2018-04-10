@@ -23,6 +23,9 @@ public class SystemConstant {
     public static final String SUCCESS_CODE = "1";
     public static final String SUCCESS_MSG = "请求成功";
 
+    public static final String ALGORITHMNAME = "md5";
+    public static final Integer HASHITERATIONS = 2;
+
 
     /**
      * session中存放用户信息的key值

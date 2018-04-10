@@ -2,8 +2,8 @@ package com.dyenigma.twinsapi.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dyenigma.twinsapi.core.SystemConstant;
-import com.dyenigma.twinsapi.dao.LoginMapper;
 import com.dyenigma.twinsapi.dao.SysPermissionMapper;
+import com.dyenigma.twinsapi.dao.SysUserMapper;
 import com.dyenigma.twinsapi.service.LoginService;
 import com.dyenigma.twinsapi.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +28,16 @@ import javax.annotation.Resource;
 public class LoginServiceImpl implements LoginService {
 
     @Resource
-    private LoginMapper loginMapper;
+    private SysUserMapper sysUserMapper;
     @Resource
     private SysPermissionMapper sysPermissionMapper;
 
     /**
-     * 登录表单提交
-     *
      * @param jsonObject
-     * @return
+     * @return com.alibaba.fastjson.JSONObject
+     * @Description: 登录表单提交
+     * @author dingdongliang
+     * @date 2018/4/10 9:42
      */
     @Override
     public JSONObject authLogin(JSONObject jsonObject) {
@@ -55,21 +56,23 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-     * 根据用户名和密码查询对应的用户
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return
+     * @param username
+     * @param password
+     * @return com.alibaba.fastjson.JSONObject
+     * @Description: 根据用户名和密码查询对应的用户
+     * @author dingdongliang
+     * @date 2018/4/10 9:42
      */
     @Override
     public JSONObject getUser(String username, String password) {
-        return loginMapper.getUser(username, password);
+        return sysUserMapper.getUser(username, password);
     }
 
     /**
-     * 查询当前登录用户的权限等信息
-     *
-     * @return
+     * @return com.alibaba.fastjson.JSONObject
+     * @Description: 查询当前登录用户的权限等信息
+     * @author dingdongliang
+     * @date 2018/4/10 9:42
      */
     @Override
     public JSONObject getInfo() {
@@ -85,9 +88,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-     * 退出登录
-     *
-     * @return
+     * @return com.alibaba.fastjson.JSONObject
+     * @Description: 退出登录
+     * @author dingdongliang
+     * @date 2018/4/10 9:42
      */
     @Override
     public JSONObject logout() {
@@ -95,6 +99,7 @@ public class LoginServiceImpl implements LoginService {
             Subject currentUser = SecurityUtils.getSubject();
             currentUser.logout();
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
         return JsonUtil.successJson();
     }

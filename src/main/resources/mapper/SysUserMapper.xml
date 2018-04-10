@@ -2,5 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dyenigma.twinsapi.dao.SysUserMapper">
 
+    <select id="getUser" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select * from sys_user where user_name =#{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
 
 </mapper>
