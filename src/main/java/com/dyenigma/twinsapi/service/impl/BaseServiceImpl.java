@@ -1,18 +1,24 @@
-package com.dyenigma.twinsapi.service;
+package com.dyenigma.twinsapi.service.impl;
 
+import com.dyenigma.twinsapi.dao.MyMapper;
+import com.dyenigma.twinsapi.service.BaseService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 /**
- * twins-api/com.dyenigma.twinsapi.service
+ * twins-api/com.dyenigma.twinsapi.service.impl
  *
  * @Description :
  * @Author : dingdongliang
- * @Date : 2018/4/11 16:12
+ * @Date : 2018/4/11 16:39
  */
-public interface BaseService<T> {
+public class BaseServiceImpl<T> implements BaseService<T> {
 
+    @Autowired
+    private MyMapper<T> mapper;
 
     /**
      * @param id
@@ -21,7 +27,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    T selectById(String id);
+    @Override
+    public T selectById(String id) {
+        return this.mapper.selectByPrimaryKey(id);
+    }
 
     /**
      * @return java.util.List<T>
@@ -29,7 +38,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    List<T> selectAll();
+    @Override
+    public List<T> selectAll() {
+        return this.mapper.select(null);
+    }
 
     /**
      * @param param
@@ -38,7 +50,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    List<T> selectByCondition(T param);
+    @Override
+    public List<T> selectByCondition(T param) {
+        return this.mapper.select(param);
+    }
 
     /**
      * @param param
@@ -47,7 +62,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    Integer selectCount(T param);
+    @Override
+    public Integer selectCount(T param) {
+        return this.mapper.selectCount(param);
+    }
 
     /**
      * @param param
@@ -58,7 +76,13 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    PageInfo<T> selectPageByCondition(T param, Integer page, Integer rows);
+    @Override
+    public PageInfo<T> selectPageByCondition(T param, Integer page, Integer rows) {
+        PageHelper.startPage(page, rows);
+        List<T> list = this.selectByCondition(param);
+        return new PageInfo<T>(list);
+
+    }
 
     /**
      * @param param
@@ -67,7 +91,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    T selectOne(T param);
+    @Override
+    public T selectOne(T param) {
+        return this.mapper.selectOne(param);
+    }
 
     /**
      * @param param
@@ -76,7 +103,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:17
      */
-    Integer insert(T param);
+    @Override
+    public Integer insert(T param) {
+        return this.mapper.insert(param);
+    }
 
     /**
      * @param param
@@ -85,7 +115,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:18
      */
-    Integer insertSelective(T param);
+    @Override
+    public Integer insertSelective(T param) {
+        return this.mapper.insertSelective(param);
+    }
 
     /**
      * @param param
@@ -94,7 +127,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:18
      */
-    Integer update(T param);
+    @Override
+    public Integer update(T param) {
+        return this.mapper.updateByPrimaryKey(param);
+    }
 
     /**
      * @param param
@@ -103,7 +139,10 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:18
      */
-    Integer updateSelective(T param);
+    @Override
+    public Integer updateSelective(T param) {
+        return this.mapper.updateByPrimaryKeySelective(param);
+    }
 
     /**
      * @param id
@@ -112,5 +151,8 @@ public interface BaseService<T> {
      * @author dingdongliang
      * @date 2018/4/11 16:18
      */
-    Integer deleteById(String id);
+    @Override
+    public Integer deleteById(String id) {
+        return this.mapper.deleteByPrimaryKey(id);
+    }
 }

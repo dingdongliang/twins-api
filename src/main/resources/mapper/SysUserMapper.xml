@@ -2,8 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dyenigma.twinsapi.dao.SysUserMapper">
 
-    <select id="getUser" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
-        select * from sys_user where user_name =#{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    <sql id="Base_Column_List">
+        USER_ID, USER_NAME, USER_NO, JOIN_TIME, ACCOUNT, PASSWORD, USER_EMAIL, USER_PHONE,
+        USER_ADDR, GENDER, FIRST_LOGIN, PREV_LOGIN, PREV_IP, LAST_LOGIN, LOGIN_COUNT, STATUS,
+        USER_DESC, IS_ONLINE, SORT, CREATED, LASTMOD, CREATER, MODIFYER
+    </sql>
+
+    <select id="userCertified" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where account =#{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
     </select>
 
 </mapper>

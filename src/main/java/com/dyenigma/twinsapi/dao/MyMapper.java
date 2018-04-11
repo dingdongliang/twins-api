@@ -1,4 +1,4 @@
-package com.dyenigma.twinsapi.core;
+package com.dyenigma.twinsapi.dao;
 
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;
@@ -11,6 +11,6 @@ import tk.mybatis.mapper.common.IdsMapper;
  * @Author : dingdongliang
  * @Date : 2018/4/9 11:44
  */
-public interface OwnMapper<T> extends BaseMapper<T>, ConditionMapper<T>, IdsMapper<T> {
+public interface MyMapper<T> extends BaseMapper<T>, ConditionMapper<T>, IdsMapper<T> {
 }
 

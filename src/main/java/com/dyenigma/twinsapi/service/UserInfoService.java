@@ -9,5 +9,5 @@ import com.dyenigma.twinsapi.mongo.UserInfo;
  * @Author : dingdongliang
  * @Date : 2018/3/11 18:55
  */
-public interface UserInfoService extends BaseService<UserInfo> {
+public interface UserInfoService extends MongoBaseService<UserInfo> {
 }

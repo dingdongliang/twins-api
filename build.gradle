@@ -42,6 +42,8 @@ ext {
     quartzVersion = '2.3.0'
     elaSearchVersion = '5.6.0'
     log4j2slf4jVersion = '2.8.2'
+    pac4jCasVersion = '2.2.1'
+    bujiPacVersion = '3.2.0'
 }
 
 dependencies {
@@ -64,12 +66,15 @@ dependencies {
             "org.elasticsearch:elasticsearch:${elaSearchVersion}",
             "io.springfox:springfox-swagger-ui:${swaggerVerion}",
             "io.springfox:springfox-swagger2:${swaggerVerion}",
+            "org.apache.shiro:shiro-ehcache:${shiroVersion}",
             "org.apache.shiro:shiro-spring:${shiroVersion}",
             "org.quartz-scheduler:quartz:${quartzVersion}",
             "tk.mybatis:mapper:${mybatisMapperVersion}",
             "org.projectlombok:lombok:${lombokVersion}",
             "com.alibaba:fastjson:${fastjsonVersion}",
             "com.google.guava:guava:${guavaVersion}",
+            "org.pac4j:pac4j-cas:${pac4jCasVersion}",
+            "io.buji:buji-pac4j:${bujiPacVersion}",
             "org.apache.poi:poi:${poiVersion}",
             fileTree(dir: 'lib', include: '*.jar')
     )

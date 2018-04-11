@@ -1,7 +1,6 @@
 package com.dyenigma.twinsapi.dao;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dyenigma.twinsapi.core.OwnMapper;
+import com.dyenigma.twinsapi.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -11,13 +10,12 @@ import org.apache.ibatis.annotations.Param;
  * @Author : dingdongliang
  * @Date : 2018/4/9 11:47
  */
-public interface SysUserMapper extends OwnMapper<JSONObject> {
+public interface SysUserMapper extends MyMapper<SysUser> {
     /**
-     * 根据用户名和密码查询对应的用户
-     *
-     * @param username 用户名
+     * 根据用户名和密码查询对应的用*
+     * @param account  用户账号
      * @param password 密码
      * @return
      */
-    JSONObject getUser(@Param("username") String username, @Param("password") String password);
+    SysUser userCertified(@Param("account") String account, @Param("password") String password);
 }

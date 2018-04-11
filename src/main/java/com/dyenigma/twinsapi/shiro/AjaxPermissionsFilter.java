@@ -2,6 +2,7 @@ package com.dyenigma.twinsapi.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dyenigma.twinsapi.core.RespCodeEnum;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +21,23 @@ import java.io.PrintWriter;
  */
 public class AjaxPermissionsFilter extends FormAuthenticationFilter {
 
+    /**
+     * @param request
+     * @param response
+     * @return boolean
+     * @Description: 当访问拒绝时是否已经处理, 返回true表示需要继续处理；返回false将直接返回
+     * @author dingdongliang
+     * @date 2018/4/11 12:49
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+
+        Subject subject = getSubject(request, response);
+        if (!subject.isAuthenticated() && !subject.isRemembered()) {
+            //如果没有登录，直接进行之后的流程
+            return true;
+        }
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("returnCode", RespCodeEnum.LOGOUT_PLEASE_RE_LOGIN.getCode());
         jsonObject.put("returnMsg", RespCodeEnum.LOGOUT_PLEASE_RE_LOGIN.getDesc());
@@ -39,7 +55,7 @@ public class AjaxPermissionsFilter extends FormAuthenticationFilter {
                 out.close();
             }
         }
-        return false;
+        return super.onAccessDenied(request, response);
     }
 
     @Bean

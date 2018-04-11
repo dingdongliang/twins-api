@@ -12,6 +12,28 @@ public class SystemConstant {
     }
 
     /**
+     * Cookie 管理器加密使用
+     */
+    public static final String AES_KEY = "2AvVhdsgUs0FSA3SDFAdag==";
+    /**
+     * 同一个帐号最大会话数 默认1
+     */
+    public static final Integer ACCOUNT_MAX_SESSION = 1;
+    public static final String KICKOUT = "kickout";
+    /**
+     * 同一账号多次登录的时候，踢人的顺序设置，false为踢出先登录的
+     */
+    public static final Boolean KICKOUT_AFTER = false;
+
+    public static final String VISIT_SETTING = "anon";
+
+    /**
+     * 状态，有效的为E，无效的为I
+     */
+    public static final String EFFECTIVE = "E";
+    public static final String INVALID = "I";
+
+    /**
      * 一些常用的字符串常量，常量值和名称保持一致,值都是小写，用来避免魔法值
      */
     public static final String OK = "ok";

@@ -23,7 +23,6 @@ public class UserInfoServiceTest extends TwinsApiApplicationTests {
     @Autowired
     private UserInfoService userInfoService;
 
-
     @Test
     public void saveUserTest() {
         String userName = "dyenigma";

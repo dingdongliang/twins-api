@@ -1,6 +1,6 @@
 package com.dyenigma.twinsapi.mongo;
 
-import com.dyenigma.twinsapi.util.UUidUtil;
+import com.dyenigma.twinsapi.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,7 +26,7 @@ public class UserInfo implements Serializable {
     }
 
     public UserInfo(String userName, String userAddr) {
-        this.userId = UUidUtil.getUUID();
+        this.userId = StringUtil.getUUID();
         this.userName = userName;
         this.userAddr = userAddr;
     }

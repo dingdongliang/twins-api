@@ -1,16 +1,21 @@
 package com.dyenigma.twinsapi.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dyenigma.twinsapi.core.ErrorConstant;
 import com.dyenigma.twinsapi.core.SystemConstant;
-import com.dyenigma.twinsapi.dao.SysPermissionMapper;
 import com.dyenigma.twinsapi.dao.SysUserMapper;
-import com.dyenigma.twinsapi.service.LoginService;
+import com.dyenigma.twinsapi.entity.SysUser;
+import com.dyenigma.twinsapi.service.SysUserService;
 import com.dyenigma.twinsapi.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +30,13 @@ import javax.annotation.Resource;
  */
 @Service
 @Slf4j
-public class LoginServiceImpl implements LoginService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
-    @Resource
-    private SysPermissionMapper sysPermissionMapper;
+
+
+    private static final String RESULT = "result";
 
     /**
      * @param jsonObject
@@ -41,22 +47,38 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public JSONObject authLogin(JSONObject jsonObject) {
-        String username = jsonObject.getString("username");
+        String account = jsonObject.getString("username");
         String password = jsonObject.getString("password");
         JSONObject returnData = new JSONObject();
         Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         try {
             currentUser.login(token);
-            returnData.put("result", "success");
+            returnData.put(RESULT, SystemConstant.SUCCESS);
+        } catch (UnknownAccountException e) {
+            log.error(ErrorConstant.NO_ACCOUNT);
+            returnData.put(RESULT, ErrorConstant.NO_ACCOUNT);
+        } catch (IncorrectCredentialsException e) {
+            log.error(ErrorConstant.PWD_ERROR);
+            returnData.put(RESULT, ErrorConstant.PWD_ERROR);
+        } catch (LockedAccountException e) {
+            log.error(ErrorConstant.ACCOUNT_LOCKED);
+            returnData.put(RESULT, ErrorConstant.ACCOUNT_LOCKED);
+        } catch (ExcessiveAttemptsException e) {
+            log.error(ErrorConstant.TRY_MORE_FIVE);
+            returnData.put(RESULT, ErrorConstant.TRY_MORE_FIVE);
+        } catch (DisabledAccountException e) {
+            log.error(ErrorConstant.ACCOUNT_FORBID);
+            returnData.put(RESULT, ErrorConstant.ACCOUNT_FORBID);
         } catch (AuthenticationException e) {
-            returnData.put("result", "fail");
+            log.error(ErrorConstant.STH_ERROR);
+            returnData.put(RESULT, ErrorConstant.STH_ERROR);
         }
         return JsonUtil.successJson(returnData);
     }
 
     /**
-     * @param username
+     * @param account
      * @param password
      * @return com.alibaba.fastjson.JSONObject
      * @Description: 根据用户名和密码查询对应的用户
@@ -64,28 +86,10 @@ public class LoginServiceImpl implements LoginService {
      * @date 2018/4/10 9:42
      */
     @Override
-    public JSONObject getUser(String username, String password) {
-        return sysUserMapper.getUser(username, password);
+    public SysUser userCertified(String account, String password) {
+        return sysUserMapper.userCertified(account, password);
     }
 
-    /**
-     * @return com.alibaba.fastjson.JSONObject
-     * @Description: 查询当前登录用户的权限等信息
-     * @author dingdongliang
-     * @date 2018/4/10 9:42
-     */
-    @Override
-    public JSONObject getInfo() {
-        //从session获取用户信息
-        Session session = SecurityUtils.getSubject().getSession();
-        JSONObject userInfo = (JSONObject) session.getAttribute(SystemConstant.SESSION_USER_INFO);
-        String username = userInfo.getString("username");
-        JSONObject returnData = new JSONObject();
-        JSONObject userPermission = sysPermissionMapper.getUserPermission(username);
-        session.setAttribute(SystemConstant.SESSION_USER_PERMISSION, userPermission);
-        returnData.put("userPermission", userPermission);
-        return JsonUtil.successJson(returnData);
-    }
 
     /**
      * @return com.alibaba.fastjson.JSONObject

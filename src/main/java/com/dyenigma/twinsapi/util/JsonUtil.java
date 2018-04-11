@@ -93,17 +93,17 @@ public class JsonUtil {
      * @date 2018/3/11 19:20
      */
     public static void hasAllRequired(final JSONObject jsonObject, String requiredColumns) {
-        if (!StringTools.isNullOrEmpty(requiredColumns)) {
+        if (!StringUtil.isNullOrEmpty(requiredColumns)) {
             //验证字段非空
             String[] columns = requiredColumns.split(",");
             String missCol = "";
             for (String column : columns) {
                 Object val = jsonObject.get(column.trim());
-                if (StringTools.isNullOrEmpty(val)) {
+                if (StringUtil.isNullOrEmpty(val)) {
                     missCol += column + "  ";
                 }
             }
-            if (!StringTools.isNullOrEmpty(missCol)) {
+            if (!StringUtil.isNullOrEmpty(missCol)) {
                 jsonObject.clear();
                 jsonObject.put("returnCode", RespCodeEnum.NOT_ENOUGH_PARAMS.getCode());
                 jsonObject.put("returnMsg", "缺少必填参数:" + missCol.trim());
