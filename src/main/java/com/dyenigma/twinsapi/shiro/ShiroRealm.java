@@ -1,10 +1,12 @@
 package com.dyenigma.twinsapi.shiro;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dyenigma.twinsapi.core.SystemConstant;
+import com.dyenigma.twinsapi.entity.SysPermission;
 import com.dyenigma.twinsapi.entity.SysUser;
 import com.dyenigma.twinsapi.service.SysPermissionService;
 import com.dyenigma.twinsapi.service.SysUserService;
+import com.dyenigma.twinsapi.util.StringUtil;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,26 +65,25 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
         Session session = SecurityUtils.getSubject().getSession();
-        JSONObject permission = (JSONObject) session.getAttribute(SystemConstant.SESSION_USER_PERMISSION);
+        @NonNull List<SysPermission> permissionList = (List<SysPermission>) session.getAttribute(SystemConstant
+                .SESSION_USER_PERMISSION);
 
-        log.info("permission的值为:" + permission);
+        log.info("permission的值为:" + permissionList);
 
-        Object object = permission.get(PERMISSION);
+        Set<String> permissionSet;
 
-        Set<String> permsSet;
-        if (object == null) {
+        if (permissionList == null) {
             SysUser user = (SysUser) principals.getPrimaryPrincipal();
             String userId = user.getUserId();
 
             //重新获取用户权限列表
-            permission = sysPermissionService.getPermissions(userId);
-            permsSet = permission.keySet();
-        } else {
-            permsSet = (Set<String>) object;
+            permissionList = sysPermissionService.getPermissions(userId);
         }
 
+        permissionSet = new HashSet(permissionList);
+
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setStringPermissions(permsSet);
+        authorizationInfo.setStringPermissions(permissionSet);
         return authorizationInfo;
     }
 
@@ -99,7 +100,7 @@ public class ShiroRealm extends AuthorizingRealm {
             AuthenticationException {
         String username = (String) authcToken.getPrincipal();
         String password = new String((char[]) authcToken.getCredentials());
-
+        password = StringUtil.encryptPassword(password, username);
         SysUser sysUser = sysUserService.userCertified(username, password);
 
         if (sysUser == null) {
@@ -111,11 +112,11 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new LockedAccountException("用户已被禁用,请联系管理员");
         }
 
-        //获取用户权限列表
-        Set<String> permsSet = (Set<String>) sysPermissionService.getPermissions(sysUser.getUserId());
-        List<String> permsList = new ArrayList<>();
-        permsList.addAll(permsSet);
-        sysUser.setPermissions(permsList);
+        List<SysPermission> sysPermissionList = sysPermissionService.getPermissions(sysUser.getUserId());
+
+        if (sysPermissionList != null) {
+            sysUser.setPermissions(new HashSet(sysPermissionList));
+        }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 sysUser.getAccount(), sysUser.getPassword(), getName());

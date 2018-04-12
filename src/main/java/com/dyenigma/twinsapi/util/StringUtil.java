@@ -38,6 +38,10 @@ public class StringUtil {
                 SystemConstant.HASHITERATIONS).toHex();
     }
 
+    public static void main(String[] args) {
+        System.out.println(encryptPassword("admin","dyenigma"));
+    }
+
     /**
      * @param
      * @return java.lang.String

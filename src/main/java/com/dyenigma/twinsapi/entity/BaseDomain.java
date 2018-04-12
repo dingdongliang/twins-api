@@ -5,18 +5,20 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * twins/com.dyenigma.twinsapi.entity
  *
- * @Description : 实体类基类，重写toString()方法
+ * @Description : 实体类基类，重写toString()方法，实现序列化接口， 否则Spring将对象存入Redis时会报错
  * @Author : dingdongliang
  * @Date : 2018/4/9 11:38
  */
 @Getter
 @Setter
-public class BaseDomain {
+public class BaseDomain implements Serializable {
+
     /**
      * 创造日期
      */

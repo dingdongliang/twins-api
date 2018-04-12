@@ -12,29 +12,33 @@ import com.dyenigma.twinsapi.entity.SysUser;
  */
 public interface SysUserService extends BaseService<SysUser> {
     /**
-     * @param jsonObject
+     * 登录表单提交
+     *
+     * @param account
+     * @param password
      * @return com.alibaba.fastjson.JSONObject
-     * @Description: 登录表单提交
      * @author dingdongliang
-     * @date 2018/4/11 16:29
+     * @date 2018/4/12 17:49
      */
-    JSONObject authLogin(JSONObject jsonObject);
+    JSONObject authLogin(String account, String password);
 
     /**
+     * 根据用户名和密码查询对应的用户, 用于登录认证
+     *
      * @param account
      * @param password
      * @return com.dyenigma.twinsapi.entity.SysUser
-     * @Description: 根据用户名和密码查询对应的用户, 用于登录认证
      * @author dingdongliang
-     * @date 2018/4/11 16:52
+     * @date 2018/4/12 17:45
      */
     SysUser userCertified(String account, String password);
 
     /**
+     * 退出登录
+     *
      * @return com.alibaba.fastjson.JSONObject
-     * @Description: 退出登录
      * @author dingdongliang
-     * @date 2018/4/11 16:29
+     * @date 2018/4/12 17:45
      */
     JSONObject logout();
 }

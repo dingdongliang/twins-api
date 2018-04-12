@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dyenigma.twinsapi.dao.SysPermissionMapper">
-
+    <resultMap id="BaseResultMap" type="com.dyenigma.twinsapi.entity.SysPermission">
+        <id column="PMSN_ID" property="pmsnId" jdbcType="VARCHAR"/>
+        <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR"/>
+        <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR"/>
+        <result column="PRNT_ID" property="prntId" jdbcType="VARCHAR"/>
+        <result column="PRNT_NAME" property="prntName" jdbcType="VARCHAR"/>
+        <result column="PMSN_CODE" property="pmsnCode" jdbcType="VARCHAR"/>
+        <result column="PMSN_NAME" property="pmsnName" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="CHAR"/>
+        <result column="PMSN_URL" property="pmsnUrl" jdbcType="VARCHAR"/>
+        <result column="PMSN_DESC" property="pmsnDesc" jdbcType="VARCHAR"/>
+        <result column="REQUIRED" property="required" jdbcType="CHAR"/>
+        <result column="CREATED" property="created" jdbcType="TIMESTAMP"/>
+        <result column="LASTMOD" property="lastmod" jdbcType="TIMESTAMP"/>
+        <result column="CREATER" property="creater" jdbcType="VARCHAR"/>
+        <result column="MODIFYER" property="modifyer" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        PMSN_ID, MENU_NAME, MENU_CODE, PRNT_ID, PRNT_NAME, PMSN_CODE, PMSN_NAME, STATUS,
+        PMSN_URL, PMSN_DESC, REQUIRED, CREATED, LASTMOD, CREATER, MODIFYER
+    </sql>
+    <select id="getUserPermission" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--TODO 暂时用这个替代，后面要实现根据用户ID获取角色、项目组、岗位，然后再对应所有的权限 -->
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+    </select>
 
 </mapper>

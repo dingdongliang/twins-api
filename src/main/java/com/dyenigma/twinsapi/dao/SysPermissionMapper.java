@@ -1,6 +1,10 @@
 package com.dyenigma.twinsapi.dao;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dyenigma.twinsapi.entity.SysPermission;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * twins/com.dyenigma.twinsapi.dao
@@ -11,12 +15,13 @@ import com.alibaba.fastjson.JSONObject;
  */
 public interface SysPermissionMapper extends MyMapper<JSONObject> {
     /**
-     * @param username
-     * @return com.alibaba.fastjson.JSONObject
-     * @Description: 查询用户的角色 菜单 权限
+     * 查询用户的角色 菜单 权限
+     *
+     * @param userId
+     * @return java.util.List<com.dyenigma.twinsapi.entity.SysPermission>
      * @author dingdongliang
-     * @date 2018/4/9 17:21
+     * @date 2018/4/12 17:54
      */
-    JSONObject getUserPermission(String username);
+    List<SysPermission> getUserPermission(@Param("userId") String userId);
 
 }

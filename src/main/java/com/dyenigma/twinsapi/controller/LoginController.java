@@ -37,7 +37,7 @@ public class LoginController {
             value = "格式为{\"username\": \"admin\"," + "\"password\": \"admin\"}", required = true)
                                 @RequestBody JSONObject requestJson) {
         JsonUtil.hasAllRequired(requestJson, "username,password");
-        return sysUserService.authLogin(requestJson);
+        return sysUserService.authLogin(requestJson.getString("username"), requestJson.getString("password"));
     }
 
 

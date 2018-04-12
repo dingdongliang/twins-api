@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * twins/com.dyenigma.twinsapi.entity
@@ -54,7 +55,7 @@ public class SysUser extends BaseDomain {
 
     private Integer sort;
 
-    private List<String> permissions;
+    private Set<String> permissions;
 
     private List<String> roles;
 }

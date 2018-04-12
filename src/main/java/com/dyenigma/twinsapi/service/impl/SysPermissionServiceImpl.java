@@ -5,13 +5,13 @@ import com.dyenigma.twinsapi.core.SystemConstant;
 import com.dyenigma.twinsapi.dao.SysPermissionMapper;
 import com.dyenigma.twinsapi.entity.SysPermission;
 import com.dyenigma.twinsapi.service.SysPermissionService;
-import com.dyenigma.twinsapi.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * twins-api/com.dyenigma.twinsapi.service.impl
@@ -27,21 +27,24 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
     private SysPermissionMapper sysPermissionMapper;
 
     /**
+     * 查询当前登录用户的权限等信息
+     *
+     * @param userId
      * @return com.alibaba.fastjson.JSONObject
-     * @Description: 查询当前登录用户的权限等信息
      * @author dingdongliang
-     * @date 2018/4/10 9:42
+     * @date 2018/4/12 17:46
      */
     @Override
-    public JSONObject getPermissions(String userId) {
-        //从session获取用户信息
+    public List<SysPermission> getPermissions(String userId) {
+
+        List<SysPermission> sysPermissionList = sysPermissionMapper.getUserPermission(userId);
+
         Session session = SecurityUtils.getSubject().getSession();
-        JSONObject userInfo = (JSONObject) session.getAttribute(SystemConstant.SESSION_USER_INFO);
-        String username = userInfo.getString("username");
+        session.setAttribute(SystemConstant.SESSION_USER_PERMISSION, sysPermissionList);
+
         JSONObject returnData = new JSONObject();
-        JSONObject userPermission = sysPermissionMapper.getUserPermission(username);
-        session.setAttribute(SystemConstant.SESSION_USER_PERMISSION, userPermission);
-        returnData.put("userPermission", userPermission);
-        return JsonUtil.successJson(returnData);
+        returnData.put("userPermission", sysPermissionList);
+        return sysPermissionList;
+
     }
 }

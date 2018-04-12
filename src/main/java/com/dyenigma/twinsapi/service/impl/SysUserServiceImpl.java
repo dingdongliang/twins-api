@@ -39,20 +39,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     private static final String RESULT = "result";
 
     /**
-     * @param jsonObject
+     * 登录表单提交
+     *
      * @return com.alibaba.fastjson.JSONObject
-     * @Description: 登录表单提交
      * @author dingdongliang
-     * @date 2018/4/10 9:42
+     * @date 2018/4/12 17:47
      */
     @Override
-    public JSONObject authLogin(JSONObject jsonObject) {
-        String account = jsonObject.getString("username");
-        String password = jsonObject.getString("password");
+    public JSONObject authLogin(String account,String password) {
         JSONObject returnData = new JSONObject();
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         try {
+            //调用ShiroRealm的doGetAuthenticationInfo方法
             currentUser.login(token);
             returnData.put(RESULT, SystemConstant.SUCCESS);
         } catch (UnknownAccountException e) {
@@ -78,12 +77,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     }
 
     /**
+     * 根据用户名和密码查询对应的用户
+     *
      * @param account
      * @param password
-     * @return com.alibaba.fastjson.JSONObject
-     * @Description: 根据用户名和密码查询对应的用户
+     * @return com.dyenigma.twinsapi.entity.SysUser
      * @author dingdongliang
-     * @date 2018/4/10 9:42
+     * @date 2018/4/12 17:46
      */
     @Override
     public SysUser userCertified(String account, String password) {
@@ -92,10 +92,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
 
     /**
+     * 退出登录
+     *
      * @return com.alibaba.fastjson.JSONObject
-     * @Description: 退出登录
      * @author dingdongliang
-     * @date 2018/4/10 9:42
+     * @date 2018/4/12 17:46
      */
     @Override
     public JSONObject logout() {
